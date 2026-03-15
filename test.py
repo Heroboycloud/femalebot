@@ -1,4 +1,4 @@
-from femalebot import Femalebot
+from femalebot2 import Femalebot
 
 
 
