@@ -249,7 +249,7 @@ class Femalebot:
             self.speak("Sorry, I couldn't fetch a joke right now.")
             return None
 
-    def listen(self, duration=5):
+    def listen(self, duration=7):
         """Listen for voice input"""
         try:
             self.console.clear()
