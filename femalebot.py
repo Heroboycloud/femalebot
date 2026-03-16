@@ -19,6 +19,9 @@ import wikipedia
 import psutil
 import platform
 import re
+import random
+
+
 
 class Femalebot:
     def __init__(self):
@@ -181,6 +184,17 @@ class Femalebot:
         self.speak(welcome_msg)
         self.notify(f"{self.BOTNAME} is ready", welcome_msg)
 
+
+    def change_voice(self):
+        id=[0,1]
+        voices = self.engine.getProperty('voices')
+        self.engine.setProperty('voice', voices[random.choice(id)].id)
+        self.speak("voice changed...")
+
+
+
+
+
     def run_command(self, command):
         """Run system command safely"""
         try:
@@ -235,7 +249,7 @@ class Femalebot:
             self.speak("Sorry, I couldn't fetch a joke right now.")
             return None
 
-    def listen(self, duration=5):
+    def listen(self, duration=7):
         """Listen for voice input"""
         try:
             self.console.clear()
@@ -269,7 +283,11 @@ class Femalebot:
         except Exception as e:
             self.console.print(f"[red]Listening error: {e}[/red]")
             return ""
-
+    def save_to_file(self,message):
+        filename= secrets.token_hex(5) + ".md"
+        with open(filename,"wt") as fd:
+             fd.write(message)
+             self.speak(f"saved to {filename}")
     def ask_ai(self, question):
         """Ask AI for assistance - FIXED UNICODE ERROR"""
         if not self.API_KEY or not self.API_URL:
@@ -309,7 +327,14 @@ class Femalebot:
                 self.console.print(Panel(clean_message, title="Diana", border_style="cyan"))
                 
                 # Speak response (with cleaned text)
-                self.speak(ai_message)
+                self.speak("Do you want me to read it or save it")
+                com= self.listen(6)
+                if "read" in com:
+                   self.speak(ai_message)
+                elif "save" in com:
+                   self.save_to_file(ai_message)
+                else:
+                    pass
                 
                 return ai_message
             else:
@@ -408,7 +433,9 @@ class Femalebot:
         
         elif any(word in command for word in ["time", "clock"]):
             self.say_time()
-        
+
+        elif any(word in command for word in ["voice","change"]):
+             self.change_voice()
         # Jokes
         elif any(word in command for word in ["joke", "funny", "laugh"]):
             self.tell_joke()
@@ -504,6 +531,7 @@ class Femalebot:
                 
                 if choice == "1":
                     command = self.listen(7)
+                    self.speak("Command received successfully")
                 elif choice == "2":
                     command = input("You: ").strip().lower()
                 elif choice == "3":
