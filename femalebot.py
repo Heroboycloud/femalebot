@@ -268,7 +268,11 @@ class Femalebot:
         except Exception as e:
             self.console.print(f"[red]Listening error: {e}[/red]")
             return ""
-
+    def save_to_file(self,message):
+        filename= secrets.token_hex(5) + ".md"
+        with open(filename,"wt") as fd:
+             fd.write(message)
+             self.speak(f"saved to {filename}")
     def ask_ai(self, question):
         """Ask AI for assistance - FIXED UNICODE ERROR"""
         if not self.API_KEY or not self.API_URL:
@@ -308,7 +312,14 @@ class Femalebot:
                 self.console.print(Panel(clean_message, title="Diana", border_style="cyan"))
                 
                 # Speak response (with cleaned text)
-                self.speak(ai_message)
+                self.speak("Do you want me to read it or save it")
+                com= self.listen(6)
+                if "read" in com:
+                   self.speak(ai_message)
+                elif "save" in com:
+                   self.save_to_file(ai_message)
+                else:
+                    pass
                 
                 return ai_message
             else:
