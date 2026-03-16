@@ -248,6 +248,7 @@ class Femalebot:
                 audio_data = self.recognizer.listen(source, timeout=duration, phrase_time_limit=10)
                 
                 winsound.Beep(600, 200)
+                self.console.clear()
                 self.console.print("[bold blue]Processing...[/bold blue]")
                 
                 # Recognize speech
