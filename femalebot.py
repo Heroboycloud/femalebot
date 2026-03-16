@@ -514,6 +514,7 @@ class Femalebot:
                 
                 if choice == "1":
                     command = self.listen(7)
+                    self.speak("Command received successfully")
                 elif choice == "2":
                     command = input("You: ").strip().lower()
                 elif choice == "3":
