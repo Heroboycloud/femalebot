@@ -19,6 +19,9 @@ import wikipedia
 import psutil
 import platform
 import re
+import random
+
+
 
 class Femalebot:
     def __init__(self):
@@ -180,6 +183,17 @@ class Femalebot:
         welcome_msg = f"{greeting}! I am {self.BOTNAME}, your virtual assistant. How can I help you today?"
         self.speak(welcome_msg)
         self.notify(f"{self.BOTNAME} is ready", welcome_msg)
+
+
+    def change_voice(self):
+        id=[0,1]
+        voices = self.engine.getProperty('voices')
+        self.engine.setProperty('voice', voices[random.choice(id)].id)
+        self.speak("voice changed...")
+
+
+
+
 
     def run_command(self, command):
         """Run system command safely"""
@@ -418,7 +432,9 @@ class Femalebot:
         
         elif any(word in command for word in ["time", "clock"]):
             self.say_time()
-        
+
+        elif any(word in command for word in ["voice","change"]):
+             self.change_voice()
         # Jokes
         elif any(word in command for word in ["joke", "funny", "laugh"]):
             self.tell_joke()
