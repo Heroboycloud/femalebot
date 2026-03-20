@@ -12,6 +12,7 @@ import speech_recognition as sr
 import winsound
 from rich.console import Console
 from rich.panel import Panel
+from rich.markdown import Markdown
 from dotenv import load_dotenv
 import json
 import webbrowser
@@ -20,7 +21,7 @@ import psutil
 import platform
 import re
 import random
-
+import secrets
 
 
 class Femalebot:
@@ -252,7 +253,6 @@ class Femalebot:
     def listen(self, duration=7):
         """Listen for voice input"""
         try:
-            os.system("clear")
             self.console.print("[bold green]Listening... (speak now)[/bold green]")
             winsound.Beep(800, 200)
             
@@ -262,7 +262,7 @@ class Femalebot:
                 audio_data = self.recognizer.listen(source, timeout=duration, phrase_time_limit=10)
                 
                 winsound.Beep(600, 200)
-                os.system("clear")
+                
                 self.console.print("[bold blue]Processing...[/bold blue]")
                 
                 # Recognize speech
@@ -324,11 +324,11 @@ class Femalebot:
                 clean_message = self.clean_text_for_console(ai_message)
                 
                 # Display response
-                self.console.print(Panel(Markdown(clean_message, title="Diana", border_style="cyan"),title="Diana",style="green"))
+                self.console.print(Panel(Markdown(clean_message),border_style="cyan",style="green"))
                 
                 # Speak response (with cleaned text)
                 self.speak("Do you want me to read it or save it")
-                com= self.listen(6)
+                com= self.listen(4)
                 if "read" in com:
                    self.speak(ai_message)
                 elif "save" in com:
@@ -355,7 +355,7 @@ class Femalebot:
                 if 'ai_message' in locals():
                     # Remove all non-ASCII characters as last resort
                     ascii_message = ai_message.encode('ascii', 'ignore').decode('ascii')
-                    self.console.print(Panel(ascii_message, title="Diana", border_style="cyan"))
+                    self.console.print(Panel(Markdown(ascii_message,border_style="cyan")))
                     self.speak(ai_message)
             except:
                 self.speak("I received a response but couldn't display it properly.")
@@ -544,7 +544,6 @@ class Femalebot:
                 
                 if command:
                     running = self.process_command(command)
-                    os.system("clear")
                 else:
                     self.console.print("[yellow]No command detected[/yellow]")
                     
