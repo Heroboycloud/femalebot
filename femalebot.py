@@ -324,7 +324,7 @@ class Femalebot:
                 clean_message = self.clean_text_for_console(ai_message)
                 
                 # Display response
-                self.console.print(Panel(clean_message, title="Diana", border_style="cyan"))
+                self.console.print(Panel(Markdown(clean_message, title="Diana", border_style="cyan"),title="Diana",style="green"))
                 
                 # Speak response (with cleaned text)
                 self.speak("Do you want me to read it or save it")
@@ -523,7 +523,6 @@ class Femalebot:
         while running:
             try:
                 # Get input (voice or text)
-                os.system("clear")
                 self.console.print("\n[bold cyan]Choose input method:[/bold cyan]")
                 self.console.print("[1] Voice input")
                 self.console.print("[2] Text input")
