@@ -426,7 +426,7 @@ class Femalebot:
             return True
         
         command = command.lower()
-        
+        self.console.clear()
         # Date and time
         if any(word in command for word in ["date", "day", "today"]):
             self.say_date()
@@ -512,6 +512,7 @@ class Femalebot:
 
     def run(self):
         """Main execution loop"""
+        self.console.clear()
         self.console.print(Panel.fit(
             f"[bold cyan]{self.BOTNAME} Virtual Assistant[/bold cyan]\n"
             "[green]Commands: time, date, joke, system info, open [app], search, exit[/green]",
@@ -522,6 +523,7 @@ class Femalebot:
         while running:
             try:
                 # Get input (voice or text)
+                self.console.clear()
                 self.console.print("\n[bold cyan]Choose input method:[/bold cyan]")
                 self.console.print("[1] Voice input")
                 self.console.print("[2] Text input")
@@ -543,6 +545,7 @@ class Femalebot:
                 
                 if command:
                     running = self.process_command(command)
+                    self.console.clear()
                 else:
                     self.console.print("[yellow]No command detected[/yellow]")
                     
